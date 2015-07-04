@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<div>
+  <div id="id_related" class="row"></div>
+  <button class="button pull-right" id="id_btn">more..</button>
+</div>
+
+{% block extrascript %}
+<script src="{% static 'bootstrap/js/handlebars-v3.0.3.js' %}"></script>
+{% verbatim %}
+<script id="related-article-template" type="text/x-handlebars-template">
+  {{#each this}}
+  <div class="col-xs-3">
+    <img src=/static/user_media/{{fields.thumbnail}}></img>
+    <a href=/article/{{fields.slug}}>{{fields.title}}</a>
+  </div>
+  {{/each}}
+</script>
+{% endverbatim %}
+     
+<script>
+      function loadRandom(){
+          $.ajax({
+              url: "{% url 'random-articles' %}",
+              type: 'GET',
+              dataType: 'json',
+              success: function(result){
+              var src = $('#related-article-template').html();
+                  var template = Handlebars.compile(src);
+                  var h = template($.parseJSON(result));
+                  console.log(h);
+                  $('#id_related').html(h);
+              }
+          });
+      }
+      loadRandom();
+      $('#id_btn').on('click', loadRandom);
+</script>
+{% endblock %}
+      

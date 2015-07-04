@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<h3> {{article.title}}</h3>
+<small>{{article.created|timesince}} ago</small> | <small><a href="#">{{article.author|title}}</a></small>
+<img src='{{MEDIA_URL}}/{{article.hero}}' width="100%" height="300px"></img>
+<p>{{article.body}}</p>
+{% endblock %}
