@@ -20,3 +20,6 @@ pip install -r requirements.txt
 ./manage.py runserver
 ```
 
+```
+./manage.py test
+```
