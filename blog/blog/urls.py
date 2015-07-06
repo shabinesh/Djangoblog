@@ -20,6 +20,8 @@ from articles.views import *
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', ArticleListView.as_view(), name="article-list"),
-    url(r'^article/(?P<slug>[-\w]+)/$', ArticleDetailView.as_view(), name="article-detail"),
+    url(r'^articles/json/$', ArticleListViewJson.as_view(), name="article-list-json"),
+    url(r'^article/(?P<pk>[-\w]+)/json/$', ArticleDetailViewJson.as_view(), name="article-detail-json"),
+    url(r'^article/(?P<pk>[-\w]+)/$', ArticleDetailView.as_view(), name="article-detail"),
     url(r'^articles/random/$', RandomArticles.as_view(), name="random-articles"),
 ]
