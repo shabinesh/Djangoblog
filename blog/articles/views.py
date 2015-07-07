@@ -4,7 +4,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from articles.models import Article
 from django.core import serializers
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
 
 class TopArticleMixin(ContextMixin):
     def get_top_article(self):
@@ -27,15 +27,24 @@ class ArticleListView(ListView, TopArticleMixin):
 class JsonMixin:
     def convert_context_to_json(self, context):
         l = context[self.context_object_name]
-        if type(l) is not list: l = [l]
+        if l.__class__.__name__ != 'QuerySet' and type(l) is not list:
+            l = [l]
         serialized = serializers.serialize('json', l)
         return serialized
     
     def render_to_response(self, context):
-        return JsonResponse(self.convert_context_to_json(context), status=200, safe=False)
+        return HttpResponse(self.convert_context_to_json(context), content_type='application/json')
 
 class ArticleListViewJson(JsonMixin, ArticleListView):
-    pass
+
+    """Also implements search"""
+    def get_queryset(self, *args, **kwargs):
+        q = self.request.GET.get('q', None)
+        qs = super(ArticleListViewJson, self).get_queryset(*args, **kwargs)
+        if q:
+            qs = qs.filter(title__icontains=q)
+        return qs
+
             
 class RandomArticles(View):
     def get(self, request):

@@ -1,0 +1,18 @@
+<head>
+  <title>Articles</title>
+</head>
+
+<body>
+  <h1>Awesome Blog!</h1>
+
+  {{> hello}}
+</body>
+
+<template name="hello">
+	<form class="search-form">
+		<input type="text" 	name="q" placeholder="Search..">
+	</form>
+	<pre>---------------------------------------------------</pre>
+  <h1>Article List</h1>
+	{{ articles }}
+</template>
