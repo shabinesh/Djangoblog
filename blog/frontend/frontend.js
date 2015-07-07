@@ -1,10 +1,5 @@
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
   Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }, 
 	articles: function (){
 		var q = Session.get('q');
 		Meteor.call('getArticles', q, function(err, results){
@@ -14,7 +9,6 @@ if (Meteor.isClient) {
 				console.log("error:", err);
 			}
 		});
-		console.log(Session.get('articles'));
 		return Session.get('articles');
 	}
   });
