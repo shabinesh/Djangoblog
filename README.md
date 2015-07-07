@@ -23,3 +23,12 @@ pip install -r requirements.txt
 ```
 ./manage.py test
 ```
+
+Get Meteor Running as reactive frontend. 
+
+```
+git checkout meteor-frontend
+$cd frontend
+$meteor 
+```
+	
